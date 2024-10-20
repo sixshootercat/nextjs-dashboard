@@ -7,7 +7,9 @@ import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
 import { fetchInvoicesPages } from "@/app/lib/data";
 import { Suspense } from "react";
 
-export default async function Page({
+export const experimental_ppr = true;
+
+export default async function InvoicesPage({
   searchParams,
 }: {
   searchParams?: {
