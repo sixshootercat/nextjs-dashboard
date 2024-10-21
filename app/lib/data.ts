@@ -1,3 +1,4 @@
+"use server";
 import { sql } from "@vercel/postgres";
 import {
   CustomerField,
@@ -11,7 +12,6 @@ import { formatCurrency } from "./utils";
 
 export async function fetchRevenue() {
   try {
-    // Artificially delay a response for demo purposes.
     console.log("Fetching revenue data...");
     // await new Promise((resolve) => setTimeout(resolve, 2000));
     const data = await sql<Revenue>`SELECT * FROM revenue`;
@@ -22,6 +22,24 @@ export async function fetchRevenue() {
     throw new Error("Failed to fetch revenue data.");
   }
 }
+
+export const fetchFirstCustomer = async () => {
+  try {
+    const data = await sql<CustomerField>`
+      SELECT
+        id,
+        name
+      FROM customers
+      ORDER BY name ASC
+      LIMIT 1`;
+
+    const customer = data.rows[0];
+    return customer;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch first customer.");
+  }
+};
 
 export async function fetchLatestInvoices() {
   try {
